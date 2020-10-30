@@ -1,3 +1,4 @@
+//TEST Prachi
 //Microsoft link  followed :https://docs.microsoft.com/en-us/graph/auth-v2-user
 // authentication URL 
 //https://login.microsoftonline.com/common/oauth2/v2.0/authorize?client_id=c4cf925c-250b-4a99-be47-cbf18a0cd618&response_type=code&redirect_uri=https://hujnncu11fw60bsisoftauthuser-test.cfapps.eu10.hana.ondemand.com/getToken&response_mode=query&scope=offline_access+Calendars.Read+Calendars.ReadWrite+Contacts.ReadWrite.Shared&state=hardcodeddata&sso_reload=true
