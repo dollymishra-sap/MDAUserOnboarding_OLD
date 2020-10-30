@@ -1,0 +1,13 @@
+{
+  "authenticationMethod": "route",
+    "routes": [{
+      "source": "^/service1/(.*)$",
+      "target": "$1",
+      "destination": "UserOnboarding_api"
+    },
+    {
+      "source": "/service2/(.*)",
+      "target": "$1",
+      "destination": "OAuthRedirectService_api"
+    }] 
+}

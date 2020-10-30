@@ -1,0 +1,45 @@
+<mvc:View controllerName="mda.ui5app.controller.View1" xmlns:mvc="sap.ui.core.mvc" displayBlock="true" xmlns="sap.m" xmlns:core="sap.ui.core">
+	<Shell id="shell">
+		<App id="app">
+			<pages>
+				<Page id="page" title="My Digital Assistant - User Onboarding">
+					<content>
+						<!--<VBox id="userVBox">-->
+							<Text id="redirectURL" visible="false" />
+							<!--<FormattedText htmlText="{/HTML}"/>-->
+							<MessagePage showHeader="false" id="userAuthorizedMessageBox"
+							 enableFormattedText="true"
+							 visible="false"
+							 icon="sap-icon://thumb-up"
+							 >
+							</MessagePage>
+							
+							
+							
+							<MessagePage showHeader="false" id="userUnauthorizedMessageBox"
+							 enableFormattedText="true"
+							 visible="false"
+							 icon="sap-icon://thumb-down"
+							 >
+								
+								<buttons>
+									<Button id="authorizeButton" text="Click here to authorize"
+										press="onPress"
+										visible="false">
+									</Button>
+								</buttons>
+							</MessagePage>	
+							<!--<core:Icon-->
+							<!--		id="userUnauthorizedIcon"-->
+							<!--		src="sap-icon://thumb-down"-->
+							<!--		class="size1"-->
+							<!--		 >-->
+							<!--	</core:Icon>-->
+							
+						<!--</VBox>	-->
+					</content>
+				</Page>
+			</pages>
+		</App>
+	</Shell>
+</mvc:View>

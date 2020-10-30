@@ -1,0 +1,8 @@
+{
+  "xsappname": "MDAUserOnboarding",
+  "tenant-mode": "dedicated",
+  "description": "Security profile of called application",
+  "role-templates": [
+    
+  ] 
+}

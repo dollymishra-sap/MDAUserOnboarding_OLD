@@ -1,0 +1,90 @@
+ID: MDAUserOnboarding
+_schema-version: '2.1'
+parameters:
+  deploy_mode: html5-repo
+version: 0.0.1
+modules:
+  - name: mdauseronboarding-approuter
+    type: approuter.nodejs
+    path: mdauseronboarding-approuter
+    parameters:
+      disk-quota: 256M
+      memory: 256M
+    requires:
+      - name: MDAUserOnboarding_html5_repo_runtime
+      - name: uaa_MDAUserOnboarding
+      - name: UserOnboarding_api
+        group: destinations
+        properties:
+          name: UserOnboarding_api
+          url: '~{url}'
+          forwardAuthToken: true 
+      - name: OAuthRedirectService_api
+        group: destinations
+        properties:
+          name: OAuthRedirectService_api
+          url: '~{url}'
+          forwardAuthToken: true     
+  - name: MDAUserOnboarding_ui_deployer
+    type: com.sap.html5.application-content
+    path: MDAUserOnboarding_ui_deployer
+    requires:
+      - name: MDAUserOnboarding_html5_repo_host
+    build-parameters:
+      requires:
+        - name: ui5app
+          artifacts:
+            - './*'
+          target-path: resources/ui5app
+  - name: UserOnboarding
+    type: nodejs
+    path: UserOnboarding
+    provides:
+      - name: UserOnboarding_api
+        properties:
+          url: '${default-url}'
+    properties:
+      UAA_SERVICE_NAME: uaa_MDAUserOnboarding
+    requires:
+      - name: uaa_MDAUserOnboarding          
+  - name: ui5app
+    type: html5
+    path: ui5app
+    build-parameters:
+      builder: custom
+      commands:
+        - npm install
+        - npm run build
+      supported-platforms: []
+      build-result: dist
+
+  - name: OAuthRedirectService
+    type: nodejs
+    path: OAuthRedirectService
+    provides:
+     - name: OAuthRedirectService_api
+       properties:
+          url: ${default-url}
+
+resources:
+  - name: MDAUserOnboarding_html5_repo_runtime
+    parameters:
+      service-plan: app-runtime
+      service: html5-apps-repo
+    type: org.cloudfoundry.managed-service
+  - name: MDAUserOnboarding_html5_repo_host
+    parameters:
+      service-plan: app-host
+      service: html5-apps-repo
+    type: org.cloudfoundry.managed-service
+  - name: uaa_MDAUserOnboarding
+    parameters:
+      path: ./xs-security.json
+      service-plan: application
+      service: xsuaa
+    type: org.cloudfoundry.managed-service
+  - name: dest_MDAUserOnboarding
+    parameters:
+      service-plan: lite
+      service: destination
+    type: org.cloudfoundry.managed-service
