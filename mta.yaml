@@ -1,8 +1,8 @@
-ID: MDAUserOnboarding
+ID: MDAUserOnboardingV2
 _schema-version: '2.1'
 parameters:
   deploy_mode: html5-repo
-version: 0.0.1
+version: 0.0.2
 modules:
   - name: mdauseronboarding-approuter
     type: approuter.nodejs
@@ -18,13 +18,13 @@ modules:
         properties:
           name: UserOnboarding_api
           url: '~{url}'
-          forwardAuthToken: true 
+          forwardAuthToken: true
       - name: OAuthRedirectService_api
         group: destinations
         properties:
           name: OAuthRedirectService_api
           url: '~{url}'
-          forwardAuthToken: true     
+          forwardAuthToken: true
   - name: MDAUserOnboarding_ui_deployer
     type: com.sap.html5.application-content
     path: MDAUserOnboarding_ui_deployer
@@ -46,7 +46,7 @@ modules:
     properties:
       UAA_SERVICE_NAME: uaa_MDAUserOnboarding
     requires:
-      - name: uaa_MDAUserOnboarding          
+      - name: uaa_MDAUserOnboarding
   - name: ui5app
     type: html5
     path: ui5app
@@ -57,15 +57,13 @@ modules:
         - npm run build
       supported-platforms: []
       build-result: dist
-
   - name: OAuthRedirectService
     type: nodejs
     path: OAuthRedirectService
     provides:
-     - name: OAuthRedirectService_api
-       properties:
-          url: ${default-url}
-
+      - name: OAuthRedirectService_api
+        properties:
+          url: '${default-url}'
 resources:
   - name: MDAUserOnboarding_html5_repo_runtime
     parameters:
