@@ -1,34 +1,140 @@
-<mvc:View controllerName="mda.ui5app.controller.View1" xmlns:mvc="sap.ui.core.mvc" displayBlock="true" xmlns="sap.m" xmlns:core="sap.ui.core">
+<mvc:View controllerName="mda.ui5app.controller.View1" xmlns:mvc="sap.ui.core.mvc" displayBlock="true" xmlns="sap.m" xmlns:core="sap.ui.core" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" >
 	<Shell id="shell">
 		<App id="app">
 			<pages>
 				<Page id="page" title="My Digital Assistant - User Onboarding">
 					<content>
 						<!--<VBox id="userVBox">-->
+						<Panel>
 							<Text id="redirectURL" visible="false" />
 							<!--<FormattedText htmlText="{/HTML}"/>-->
-							<MessagePage showHeader="false" id="userAuthorizedMessageBox"
-							 enableFormattedText="true"
-							 visible="false"
-							 icon="sap-icon://thumb-up"
-							 >
-							</MessagePage>
+							<!--<MessagePage showHeader="false" id="userAuthorizedMessageBox"-->
+							<!-- enableFormattedText="true"-->
+							<!-- visible="false"-->
+							<!-- icon="sap-icon://thumb-up"-->
+							<!-- >-->
+							<!--</MessagePage>-->
 							
+							<MessageStrip
+								id = "userAuthorizedMessageBox"
+								type="Success"
+								visible="false"
+								showIcon="true"
+								showCloseButton="false"
+								class="sapUiMediumMarginBottom">
+							</MessageStrip>
 							
+							<MessageStrip
+								id = "userUnauthorizedMessageBox"
+								visible="false"
+								type="Error"
+								showIcon="true"
+								showCloseButton="false"
+								class="sapUiMediumMarginBottom">
+							</MessageStrip>
 							
-							<MessagePage showHeader="false" id="userUnauthorizedMessageBox"
-							 enableFormattedText="true"
-							 visible="false"
-							 icon="sap-icon://thumb-down"
-							 >
+							<Button id="authorizeButton" text="Click here to authorize"
+								press="onPressAuthorizeButton"
+								visible="false">
+							</Button>
+						</Panel>
+						
+						<!--<Bar class="barStyle">-->
+			   <!--               <Button text="My DLs"  enabled="false" />-->
+			   <!--           </Bar>-->
+				<VBox class="sapUiSmallMargin" visible="true">
+						<f:SimpleForm id="SimpleFormChange354"
+							editable="true"
+							layout="ResponsiveGridLayout"
+							title="Your DL List"
+							labelSpanXL="3"
+							labelSpanL="3"
+							labelSpanM="3"
+							labelSpanS="12"
+							adjustLabelSpan="false"
+							emptySpanXL="4"
+							emptySpanL="4"
+							emptySpanM="4"
+							emptySpanS="0"
+							columnsXL="1"
+							columnsL="1"
+							columnsM="1"
+							singleContainerFullSize="false" >
+							<f:content>
 								
-								<buttons>
-									<Button id="authorizeButton" text="Click here to authorize"
-										press="onPress"
-										visible="false">
-									</Button>
-								</buttons>
-							</MessagePage>	
+								<f:Form id="dlListForm">
+			                        <f:layout>
+			                          <f:ResponsiveGridLayout  />
+			                        </f:layout>
+			                        <f:formContainers>
+			                          <f:FormContainer>
+			                            <f:formElements>
+			                              <f:FormElement id="dlName" label="DL Name">
+			                                <f:fields>
+			                                	<Input />
+			                                  <CheckBox text="Default" selected="false"/>
+			                                  <!--<Button text="Add Another DL" icon="sap-icon://add" press="onDLElementAdd" />-->
+			                                </f:fields>
+			                              </f:FormElement>
+			                              
+			                                <f:FormElement id="dlEmail" label="DL Email">
+			                                <f:fields>
+			                                	<Input />
+			                                </f:fields>
+			                              </f:FormElement>
+			                              
+			                            </f:formElements>
+			                          </f:FormContainer>
+			                        </f:formContainers>
+			                      </f:Form>
+			                      
+							</f:content>
+						</f:SimpleForm>
+						
+							<Bar class="barStyle">
+	                <contentRight>
+	                	<Button text="Add Another DL" icon="sap-icon://add" press="onDLElementAdd" />
+	                	<Button text="Save" icon="sap-icon://save" press="onPressSaveDL" />
+	                </contentRight>
+	              </Bar>
+					</VBox>			   
+						<!--<Panel id="oPanel" width="auto" class="sapUiResponsiveMargin">-->
+			   <!--             <content>-->
+			   <!--               <l:Grid defaultSpan="L12 M12 S12" hSpacing="2" width="auto">-->
+			   <!--                 <l:content>-->
+			   <!--                   <f:Form id="FormDisplay354" minWidth="1024" maxContainerCols="2">-->
+			   <!--                     <f:layout>-->
+			   <!--                       <f:ResponsiveGridLayout  />-->
+			   <!--                     </f:layout>-->
+			   <!--                     <f:formContainers>-->
+			   <!--                       <f:FormContainer>-->
+			   <!--                         <f:formElements>-->
+			   <!--                           <f:FormElement id="dlElement" label="DL">-->
+			   <!--                             <f:fields>-->
+			   <!--                               <Input />-->
+			   <!--                               <CheckBox text="Default" selected="false"/>-->
+			   <!--                               <Button text="DL" icon="sap-icon://add" press="onDLElementAdd" />-->
+			   <!--                             </f:fields>-->
+			   <!--                           </f:FormElement>-->
+			   <!--                         </f:formElements>-->
+			   <!--                       </f:FormContainer>-->
+			   <!--                     </f:formContainers>-->
+			   <!--                   </f:Form>-->
+			   <!--                   <Button text="Save"  press="onSave" />-->
+			   <!--                 </l:content>-->
+			   <!--               </l:Grid>-->
+			   <!--             </content>-->
+			   <!--           </Panel>-->
+			              
+							
+							<!--<MessagePage showHeader="false" id="userUnauthorizedMessageBox"-->
+							<!-- enableFormattedText="true"-->
+							<!-- visible="false"-->
+							<!-- icon="sap-icon://thumb-down"-->
+							<!-- >-->
+								
+								
+							<!--</MessagePage>	-->
 							<!--<core:Icon-->
 							<!--		id="userUnauthorizedIcon"-->
 							<!--		src="sap-icon://thumb-down"-->
