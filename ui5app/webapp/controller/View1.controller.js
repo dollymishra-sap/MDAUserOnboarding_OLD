@@ -1,8 +1,9 @@
 sap.ui.define([
 	"sap/ui/core/mvc/Controller",
 	'sap/ui/core/BusyIndicator',
-	'sap/m/MessageToast'
-], function (Controller,BusyIndicator,MessageToast) {
+	'sap/m/MessageToast',
+	"sap/m/MessageBox",
+], function (Controller,BusyIndicator,MessageToast,MessageBox) {
 	"use strict";
 
 	return Controller.extend("mda.ui5app.controller.View1", {
@@ -88,6 +89,9 @@ sap.ui.define([
         						oFormContainer.getFormElements()[1].getFields()[0].setValue(data.USER_DL[i].DL_EMAIL);
         					}
         					else{
+        						var oDlElementRemoveButton = that.getView().byId("dlElementRemoveButton");
+        						oDlElementRemoveButton.setEnabled(true);
+          
         						var oLength = oFormContainer.getFormElements().length;
 						        var dlNameElement = that.getView().byId("dlName");
 						          var dlNameElementCopy = dlNameElement.clone();
@@ -157,6 +161,9 @@ sap.ui.define([
 
 
         onDLElementAdd: function(oEvent) {
+          var oDlElementRemoveButton = this.getView().byId("dlElementRemoveButton");
+          oDlElementRemoveButton.setEnabled(true);
+          
           var oForm = this.getView().byId("dlListForm");
           var oFormContainer = oForm.getFormContainers()[0];
           var oLength = oFormContainer.getFormElements().length;
@@ -175,81 +182,104 @@ sap.ui.define([
         onPressSaveDL: function(oEvent){
         	
         	var that = this;
-        	var oButton = oEvent.getSource();
         	var csrfToken = null;
         	var requestObj = [];
-     //   	{       
-     //   			"USER_EMAIL" : "RAJA.PRASAD.GUPTA@SAP.COM",
-					// "DL_NAME" : "DL_PLS",
-					// "DL_EMAIL" : "plsabc@sap.com",
-					// "IS_DEFAULT" : "true"
-					// };
-        		
-        	
     		var oForm = that.getView().byId("dlListForm");
     		var oFormContainer = oForm.getFormContainers()[0];
     		var oFormElements = oFormContainer.getFormElements();
+    		
+    		var isInputValid = true;
     		for(var i=0; i<oFormElements.length ; i++){
     			
     			var objTemp = {};
     			
     			objTemp.DL_NAME = oFormElements[i].getFields()[0].getValue();
+    			if ( !(objTemp.DL_NAME && objTemp.DL_NAME.length > 0) ) {
+					MessageBox.error("Enter a valid DL name.");
+					oFormElements[i].getFields()[0].setValueState(sap.ui.core.ValueState.Error);
+					isInputValid = false;
+					break;
+				}
+				else{
+					oFormElements[i].getFields()[0].setValueState(sap.ui.core.ValueState.None);
+				}
+    			
     			objTemp.IS_DEFAULT = oFormElements[i++].getFields()[1].getSelected();
+    			
     			objTemp.DL_EMAIL = oFormElements[i].getFields()[0].getValue();
+    			var mailregex = /^\w+[\w-+\.]*\@\w+([-\.]\w+)*\.[a-zA-Z]{2,}$/;
+				if (!mailregex.test(objTemp.DL_EMAIL)) {
+					MessageBox.error("Enter a valid email id");
+					oFormElements[i].getFields()[0].setValueState(sap.ui.core.ValueState.Error);
+					isInputValid = false;
+					break;
+				}
+				else{
+					oFormElements[i].getFields()[0].setValueState(sap.ui.core.ValueState.None);
+				}
+				
     			requestObj.push(objTemp);
  			}
         	
-        	
-        	
-        	
-        		
-        	jQuery.ajax("../service1/ping",{
-			  type: "GET",
-			  contentType: 'application/json',
-			  dataType: 'json',
-			  beforeSend: function(xhr){
-			    xhr.setRequestHeader('X-CSRF-Token', 'fetch');
-			  },
-			  complete : function(response) {
-				  	csrfToken = response.getResponseHeader('X-CSRF-Token');
-				    // jQuery.ajaxSetup({
-				    //   beforeSend: function(xhr) {
-				    //     xhr.setRequestHeader("X-CSRF-Token",response.getResponseHeader('X-CSRF-Token'));
-				    //   }
-				    // });
-				    
-				    $.ajax({
-				    url : "../service1/saveDL",
-				    type: "POST",
-				    data : JSON.stringify(requestObj),
-				    // data: '{"data": "TEST"}',
-				    datatype: "json",
-				    contentType: "application/json",
-				     beforeSend: function(xhr){
-					    xhr.setRequestHeader('X-CSRF-Token', csrfToken);
-					  },
-				    // headers: 
-				    // {
-				    //     'X-CSRF-TOKEN': csrfToken
-				    // },
-				    success: function(data, textStatus, jqXHR)
-				    {
-				        var response = data;
-				        MessageToast.show(response.INFO);
-				    },
-				    error: function (jqXHR, textStatus, errorThrown)
-				    {
-						var response = errorThrown;
-				        MessageToast.show(response.INFO);
-				    }
-				});  
-			    
-			    
-			  }
-			});	
-        	
-			      	
-        	
+        	if(isInputValid){
+	        	jQuery.ajax("../service1/ping",{
+				  type: "GET",
+				  contentType: 'application/json',
+				  dataType: 'json',
+				  beforeSend: function(xhr){
+				    xhr.setRequestHeader('X-CSRF-Token', 'fetch');
+				  },
+				  complete : function(response) {
+					  	csrfToken = response.getResponseHeader('X-CSRF-Token');
+					    // jQuery.ajaxSetup({
+					    //   beforeSend: function(xhr) {
+					    //     xhr.setRequestHeader("X-CSRF-Token",response.getResponseHeader('X-CSRF-Token'));
+					    //   }
+					    // });
+					    
+					    $.ajax({
+					    url : "../service1/saveDL",
+					    type: "POST",
+					    data : JSON.stringify(requestObj),
+					    datatype: "json",
+					    contentType: "application/json",
+					     beforeSend: function(xhr){
+						    xhr.setRequestHeader('X-CSRF-Token', csrfToken);
+						  },
+					    success: function(data, textStatus, jqXHR)
+					    {
+					        MessageToast.show(data.INFO);
+					    },
+					    error: function (jqXHR, textStatus, errorThrown)
+					    {
+					        MessageToast.show(textStatus);
+					    }
+					});  
+				  }
+				});	
+        	}
+        },
+        
+        onDLElementRemove: function(oEvent){
+        	  var oForm = this.getView().byId("dlListForm");
+	          var oFormContainer = oForm.getFormContainers()[0];
+	          var oLength = oFormContainer.getFormElements().length;
+	          
+       		 var oFormElements = oFormContainer.getFormElements();
+	          
+	          if(oLength === 2){
+	          	oFormElements[0].getFields()[0].setValue("");
+	          	oFormElements[0].getFields()[1].setSelected(false);
+	          	oFormElements[1].getFields()[0].setValue("");
+	          	
+	          	var oDlElementRemoveButton = this.getView().byId("dlElementRemoveButton");
+        		oDlElementRemoveButton.setEnabled(false);
+	          }
+	          else{
+	          	oFormContainer.removeFormElement(oLength - 1);
+	          	oFormContainer.removeFormElement(oLength - 2);
+	          }
         }
+        
 	});
 });

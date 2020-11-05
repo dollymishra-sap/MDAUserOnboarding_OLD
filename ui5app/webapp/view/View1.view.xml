@@ -94,6 +94,7 @@
 							<Bar class="barStyle">
 	                <contentRight>
 	                	<Button text="Add Another DL" icon="sap-icon://add" press="onDLElementAdd" />
+	                	<Button id= "dlElementRemoveButton" text="Remove DL" icon="sap-icon://less" press="onDLElementRemove" enabled="false" />
 	                	<Button text="Save" icon="sap-icon://save" press="onPressSaveDL" />
 	                </contentRight>
 	              </Bar>

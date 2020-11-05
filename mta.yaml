@@ -39,6 +39,9 @@ modules:
   - name: UserOnboarding
     type: nodejs
     path: UserOnboarding
+    parameters:
+      disk-quota: 256M
+      memory: 256M    
     provides:
       - name: UserOnboarding_api
         properties:
@@ -50,6 +53,9 @@ modules:
   - name: ui5app
     type: html5
     path: ui5app
+    parameters:
+      disk-quota: 256M
+      memory: 256M    
     build-parameters:
       builder: custom
       commands:
@@ -60,6 +66,9 @@ modules:
   - name: OAuthRedirectService
     type: nodejs
     path: OAuthRedirectService
+    parameters:
+      disk-quota: 256M
+      memory: 256M    
     provides:
       - name: OAuthRedirectService_api
         properties:
