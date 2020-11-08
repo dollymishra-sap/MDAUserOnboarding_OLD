@@ -8,8 +8,8 @@ modules:
     type: approuter.nodejs
     path: mdauseronboarding-approuter
     parameters:
-      disk-quota: 256M
-      memory: 256M
+      disk-quota: 512M
+      memory: 512M
     requires:
       - name: MDAUserOnboarding_html5_repo_runtime
       - name: uaa_MDAUserOnboarding
@@ -40,8 +40,8 @@ modules:
     type: nodejs
     path: UserOnboarding
     parameters:
-      disk-quota: 256M
-      memory: 256M    
+      disk-quota: 512M
+      memory: 512M    
     provides:
       - name: UserOnboarding_api
         properties:
@@ -54,8 +54,8 @@ modules:
     type: html5
     path: ui5app
     parameters:
-      disk-quota: 256M
-      memory: 256M    
+      disk-quota: 512M
+      memory: 512M    
     build-parameters:
       builder: custom
       commands:
@@ -67,8 +67,8 @@ modules:
     type: nodejs
     path: OAuthRedirectService
     parameters:
-      disk-quota: 256M
-      memory: 256M    
+      disk-quota: 512M
+      memory: 512M    
     provides:
       - name: OAuthRedirectService_api
         properties:

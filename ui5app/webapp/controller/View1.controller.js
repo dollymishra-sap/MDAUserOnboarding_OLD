@@ -47,9 +47,7 @@ sap.ui.define([
 						
 						
 						var message = "Welcome " + data.USER_EMAIL_FROM_SESSION + "!\n You are authorized. \n Your passcode is: " + data.USER_PASSCODE;
-						// var messagePasscode = "Your passcode is: " + data.USER_PASSCODE;
 						that.getView().byId("userAuthorizedMessageBox").setText(message);
-						// that.getView().byId("userAuthorizedMessageBox").setDescription(messagePasscode);
 						
 						that.getView().byId("userAuthorizedMessageBox").setVisible(true);
 						that.getView().byId("authorizeButton").setVisible(false);
@@ -59,7 +57,6 @@ sap.ui.define([
 						
 						var message = "Welcome " + data.USER_EMAIL_FROM_SESSION + "!\n You are not authorized";
 						that.getView().byId("userUnauthorizedMessageBox").setText(message);
-						// that.getView().byId("userUnauthorizedMessageBox").setDescription("");
 						that.getView().byId("userUnauthorizedMessageBox").setVisible(true);
 						that.getView().byId("authorizeButton").setVisible(true);
 						
@@ -114,7 +111,7 @@ sap.ui.define([
 			});
 		},
 		onPressAuthorizeButton: function(){
-			var getTokenURL = "https://74cb6757trial-dev-mdauseronboarding-approuter.cfapps.eu10.hana.ondemand.com/service2/getToken";
+			var getTokenURL = "https://4a2ed6b5trial-mda-mdauseronboarding-approuter.cfapps.eu10.hana.ondemand.com/service2/getToken";
 			var clientAppID = "7a4c0a66-2cf1-4cb7-8abe-f39c5f65193d";
 			
 			var redirectUrl = "https://login.microsoftonline.com/common/oauth2/v2.0/authorize?" + 
@@ -127,35 +124,10 @@ sap.ui.define([
 			sap.m.URLHelper.redirect(redirectUrl, true);
 			var that = this;
 			var flag= true;
-			// while(flag){
-			// 	$.ajax({
-			// 		url: "../service1/checkuser"
-			// 	}).done(function (data, status, jqxhr) {
-			// 		if(data){
-			// 			if(data && data.IS_USER_AUTHORIZED){
-							
-			// 				var message = "Welcome " + data.USER_EMAIL_FROM_SESSION + "!\n You are authorized";
-			// 				var messagePasscode = "Your passcode is: " + data.USER_PASSCODE;
-			// 				that.getView().byId("userAuthorizedMessageBox").setText(message);
-			// 				that.getView().byId("userAuthorizedMessageBox").setDescription(messagePasscode);
-							
-			// 				that.getView().byId("userAuthorizedMessageBox").setVisible(true);
-			// 				that.getView().byId("authorizeButton").setVisible(false);
-			// 				BusyIndicator.hide();
-			// 				flag = false;
-			// 			}
-			// 		}
-			// 	});
-			// }
-			
-			
 			
 			setTimeout(function() {
 				that.onAfterRendering();
 				BusyIndicator.hide();
-				// setTimeout(function() {
-					
-	   //         },5000);
             },20000);
 		},
 

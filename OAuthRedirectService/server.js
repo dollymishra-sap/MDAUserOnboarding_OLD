@@ -16,7 +16,7 @@ var CALENDAR_ID = "";
 var payloadToken = "";
 var util = require('util');
 
-var GET_TOKEN_SERVICE_URL = "https://74cb6757trial-dev-mdauseronboarding-approuter.cfapps.eu10.hana.ondemand.com/service2/getToken";
+var GET_TOKEN_SERVICE_URL = "https://4a2ed6b5trial-mda-mdauseronboarding-approuter.cfapps.eu10.hana.ondemand.com/service2/getToken";
 // var GET_TOKEN_SERVICE_URL = "https://ywumcutwfexogh18thredirectservice.cfapps.eu10.hana.ondemand.com/getToken";
 
 
@@ -30,10 +30,9 @@ var AZURE_SECRET_KEY = "pWzhLiL0AJs.wcro96~RwcZ_oa2.c6ex8N";
 //				HANA HARD Coded values
 //=======================================================================================
 var hana = require('@sap/hana-client');
-var HANA_END_POINT = "5fbfc3dd-3658-4bc2-a256-03b1d668801b.hana.prod-eu10.hanacloud.ondemand.com:443"; //RAJA
+var HANA_END_POINT = "5fbfc3dd-3658-4bc2-a256-03b1d668801b.hana.prod-eu10.hanacloud.ondemand.com:443";
 var connOptions = {
 	serverNode: HANA_END_POINT,
-	//serverNode: 'your host:your port',
 	UID: 'I065171',
 	PWD: 'Abcd@12345',
 	encrypt: 'true', //Must be set to true when connecting to SAP HANA Cloud
