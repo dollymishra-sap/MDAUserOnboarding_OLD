@@ -8,10 +8,10 @@
 
 //DOLLY's Calendar
 
-var USER_SECRET = "HYC2ZTo7n9Y/bswqclpeDOloVavNCIhQtbD8fj22kWg=";
-var ORGANIZATIONAL_SECRET = "b631338a8784bed7f583b4a644c21ba3";
-var ELEMENT_SECRET = "CMeqRRHhG/R4JUo82oarf103011V/cik0/Apw5Ed/Ew="; // this is user token after successful MS authentication PIuj2/bZca05+BJfEVfYHuQ5zNXk9JiqJ76ysvPu6YE=
-var ELEMENT_SECRET_OUTLOOKMAIL = "vFkWOI08AJQ9XQ5GI1kuPAGWnJ2ry2eGaZ94M/RSspc=";
+var USER_SECRET = "ABC";
+var ORGANIZATIONAL_SECRET = "ABC";
+var ELEMENT_SECRET = "CMeqRRHhG/ABCCC/cik0/Apw5Ed/Ew="; // this is user token after successful MS authentication PIuj2/bZca05+BJfEVfYHuQ5zNXk9JiqJ76ysvPu6YE=
+var ELEMENT_SECRET_OUTLOOKMAIL = "ABC/RSspc=";
 var CALENDAR_ID = "";
 var payloadToken = "";
 var util = require('util');
@@ -20,8 +20,8 @@ var GET_TOKEN_SERVICE_URL = "https://4a2ed6b5trial-mda-mdauseronboarding-approut
 // var GET_TOKEN_SERVICE_URL = "https://ywumcutwfexogh18thredirectservice.cfapps.eu10.hana.ondemand.com/getToken";
 
 
-var AZURE_APP_ID = "7a4c0a66-2cf1-4cb7-8abe-f39c5f65193d";
-var AZURE_SECRET_KEY = "pWzhLiL0AJs.wcro96~RwcZ_oa2.c6ex8N";
+var AZURE_APP_ID = "ABC";
+var AZURE_SECRET_KEY = "ABC";
 
 
 
@@ -30,11 +30,11 @@ var AZURE_SECRET_KEY = "pWzhLiL0AJs.wcro96~RwcZ_oa2.c6ex8N";
 //				HANA HARD Coded values
 //=======================================================================================
 var hana = require('@sap/hana-client');
-var HANA_END_POINT = "5fbfc3dd-3658-4bc2-a256-03b1d668801b.hana.prod-eu10.hanacloud.ondemand.com:443";
+var HANA_END_POINT = "ABC:443";
 var connOptions = {
 	serverNode: HANA_END_POINT,
-	UID: 'I065171',
-	PWD: 'Abcd@12345',
+	UID: 'USER',
+	PWD: 'PASSWORD',
 	encrypt: 'true', //Must be set to true when connecting to SAP HANA Cloud
 	sslValidateCertificate: 'false', //Must be set to false when connecting
 };
