@@ -21,12 +21,12 @@ var LOCAL_TESTING = true;
 //			HANA HARD Coded values
 //=======================================================================================
 var hana = require('@sap/hana-client');
-var HANA_END_POINT = "5fbfc3dd-3658-4bc2-a256-03b1d668801b.hana.prod-eu10.hanacloud.ondemand.com:443"; 
+var HANA_END_POINT = "ABC:443"; 
 var connOptions = {
               serverNode: HANA_END_POINT,
               //serverNode: 'your host:your port',
-              UID: 'I065171',
-              PWD: 'Abcd@12345',
+              UID: 'USER',
+              PWD: 'password',
               encrypt: 'true', //Must be set to true when connecting to SAP HANA Cloud
               sslValidateCertificate: 'false', //Must be set to false when connecting
 
