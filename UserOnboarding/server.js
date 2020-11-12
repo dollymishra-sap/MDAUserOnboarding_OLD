@@ -11,7 +11,7 @@ const app = express();
 app.use(bodyParser.json());
 const port = process.env.PORT || 3000;
 
-var LOCAL_TESTING = false; 
+var LOCAL_TESTING = true; 
 
 
 
@@ -21,7 +21,7 @@ var LOCAL_TESTING = false;
 //			HANA HARD Coded values
 //=======================================================================================
 var hana = require('@sap/hana-client');
-var HANA_END_POINT = "5fbfc3dd-3658-4bc2-a256-03b1d668801b.hana.prod-eu10.hanacloud.ondemand.com:443"; //RAJA
+var HANA_END_POINT = "5fbfc3dd-3658-4bc2-a256-03b1d668801b.hana.prod-eu10.hanacloud.ondemand.com:443"; 
 var connOptions = {
               serverNode: HANA_END_POINT,
               //serverNode: 'your host:your port',
@@ -76,6 +76,8 @@ app.get('/checkuser', function (req, res, next) {
 				var user = req.user;
 				userEmail = user.id;
 			}
+			// userEmail = "raja.prasad.gupta@sap.com";
+			// 	responseJson.HARD_CODED_VALUE = true;
 			
 			responseJson.USER_EMAIL_FROM_SESSION = userEmail;
 			userEmail = userEmail.toUpperCase();
@@ -326,42 +328,59 @@ app.post("/saveDL", async function (req, res) {
 		    hanaDBConnection.connect(connOptions, function (err) {
 			        if (err) {
 			                console.log("========================= Error connecting to Database========================");
-			                responseJson.ERROR_MESSAGE = err;
+			                console.log(JSON.stringify(err));
+			                responseJson.INFO = JSON.stringify(err);
 						    responseJson.STATUS = "ERROR";
-			                responseJson.INFO = "Reached HANA CONENCTION ERROR Block";
+			                responseJson.ERROR_MESSAGE = "Reached HANA CONENCTION ERROR Block";
 			        }
 			        
-			        var stmt=hanaDBConnection.prepare("DELETE FROM MDA.USER_DL where USER_EMAIL = '" + userEmail + "'");
+			        var sqlDeleteQuery = "DELETE FROM MDA.USER_DL where USER_EMAIL = '" + userEmail.toUpperCase() + "'";
+			        var stmt=hanaDBConnection.prepare(sqlDeleteQuery);
 			        // stmt.exec();
 			        stmt.exec( function(err,rows) {
-			        	
-			        });
-			        
-			        var stmt=hanaDBConnection.prepare("INSERT into  MDA.USER_DL  VALUES (?, ?, ?, ?) ");
-					stmt.execBatch(sqlInput, function(err,rows) {
-							if (err) {
-						              console.log("========================= Error connecting to Database========================");
+			        	if (err) {
+						              console.log("========================= Error deleteing records ========================");
+						              console.log(JSON.stringify(err));
 						              responseJson.ERROR_MESSAGE = err;
 						              responseJson.STATUS = "ERROR";
-						              responseJson.INFO2 = "Reached HANA QUERY EXECUTION ERROR Block";
-						              responseJson.INFO = err;
+						              responseJson.INFO2 = "Reached HANA DELETE QUERY EXECUTION ERROR BLOCK";
+						              responseJson.INFO = JSON.stringify(err);
 						              responseJson.SQL_QUERY_VALUE = sqlInput;
 					        }
 					        else{
-					        	responseJson.STATUS = "SUCCESS";
-					        	responseJson.INFO = "Records inserted successfully";
+					        	console.log("========================= Delete query successful ========================");
+					        	console.log("delete query: " + sqlDeleteQuery);
+					        	console.log("rows deleted: " + rows);
+					        	var stmt=hanaDBConnection.prepare("INSERT into  MDA.USER_DL  VALUES (?, ?, ?, ?) ");
+								stmt.execBatch(sqlInput, function(err,rows) {
+										if (err) {
+									              console.log("========================= Error executing insert query ========================");
+									              console.log(JSON.stringify(err));
+									              responseJson.ERROR_MESSAGE = err;
+									              responseJson.STATUS = "ERROR";
+									              responseJson.INFO2 = "Reached HANA QUERY EXECUTION ERROR Block";
+									              responseJson.INFO = JSON.stringify(err);
+									              responseJson.SQL_QUERY_VALUE = sqlInput;
+								        }
+								        else{
+								        	responseJson.STATUS = "SUCCESS";
+								        	responseJson.INFO = "Records inserted successfully";
+								        }
+								        hanaDBConnection.disconnect(function (err) {
+								              if (err) {
+								                    console.log("========================= Error disconnecting to Database========================");
+								                     responseJson.ERROR_MESSAGE = err;
+									            	 responseJson.STATUS = "ERROR";
+								                     responseJson.INFO2 = "Reached HANA Connection Disconnect ERROR Block";
+								                     responseJson.INFO = JSON.stringify(err);
+								              }
+								              //console.log("HANA Connection Closed");
+								        });
+								});
 					        }
-					        hanaDBConnection.disconnect(function (err) {
-					              if (err) {
-					                    console.log("========================= Error disconnecting to Database========================");
-					                     responseJson.ERROR_MESSAGE = err;
-						            	 responseJson.STATUS = "ERROR";
-					                     responseJson.INFO2 = "Reached HANA Connection Disconnect ERROR Block";
-					                     responseJson.INFO = err;
-					              }
-					              console.log("HANA Connection Closed");
-					        });
-					});
+			        });
+			        
+			        
 		    });	
 	}
 	catch(error){
@@ -373,7 +392,7 @@ app.post("/saveDL", async function (req, res) {
 	
 	setTimeout(() => {
 			res.send(responseJson);
-		}, 2000);
+		}, 4000);
 	
 });
 

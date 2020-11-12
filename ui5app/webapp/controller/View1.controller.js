@@ -161,6 +161,7 @@ sap.ui.define([
     		var oFormElements = oFormContainer.getFormElements();
     		
     		var isInputValid = true;
+    		var dlNamesArray = [];
     		for(var i=0; i<oFormElements.length ; i++){
     			
     			var objTemp = {};
@@ -172,8 +173,14 @@ sap.ui.define([
 					isInputValid = false;
 					break;
 				}
+				else if (dlNamesArray.indexOf(objTemp.DL_NAME) !== -1){
+					MessageBox.error("DL name: " + objTemp.DL_NAME + " is specified more than once. Enter a unique name.");
+					oFormElements[i].getFields()[0].setValueState(sap.ui.core.ValueState.Error);
+					isInputValid = false;
+					break;
+				}
 				else{
-					oFormElements[i].getFields()[0].setValueState(sap.ui.core.ValueState.None);
+						oFormElements[i].getFields()[0].setValueState(sap.ui.core.ValueState.None);
 				}
     			
     			objTemp.IS_DEFAULT = oFormElements[i++].getFields()[1].getSelected();
@@ -220,10 +227,12 @@ sap.ui.define([
 						  },
 					    success: function(data, textStatus, jqXHR)
 					    {
+					    	console.log("data: "+ data.toString());
 					        MessageToast.show(data.INFO);
 					    },
 					    error: function (jqXHR, textStatus, errorThrown)
 					    {
+					        console.log("errorThrown: "+ errorThrown.toString());
 					        MessageToast.show(textStatus);
 					    }
 					});  
